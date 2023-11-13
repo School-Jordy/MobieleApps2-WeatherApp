@@ -1,16 +1,22 @@
 package com.example.weatherapp.model
+
 import com.android.volley.Request
-import com.android.volley.toolbox.StringRequest
-import com.android.volley.toolbox.Volley
-import android.content.Context
+import com.android.volley.RequestQueue
+import com.android.volley.toolbox.JsonObjectRequest
+import org.json.JSONObject
 
-class ApiService(private val context: Context) {
-    fun getData(url: String, onSuccess: (String) -> Unit, onError: (String) -> Unit) {
-        val queue = Volley.newRequestQueue(context)
-        val stringRequest = StringRequest(Request.Method.GET, url,
-            { response -> onSuccess(response) },
-            { error -> onError(error.toString()) })
-
-        queue.add(stringRequest)
+class ApiService(private val requestQueue: RequestQueue) {
+    fun getCatFact(successCallback: (String) -> Unit, errorCallback: (String?) -> Unit) {
+        val url = "https://catfact.ninja/fact"
+        val jsonObjectRequest = JsonObjectRequest(
+            Request.Method.GET, url, null,
+            { response: JSONObject ->
+                successCallback(response.getString("fact"))
+            },
+            { error ->
+                errorCallback(error.message)
+            }
+        )
+        requestQueue.add(jsonObjectRequest)
     }
 }
