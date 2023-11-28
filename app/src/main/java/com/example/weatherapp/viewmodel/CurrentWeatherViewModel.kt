@@ -11,8 +11,8 @@ import retrofit2.Response
 
 class CurrentWeatherViewModel() : ViewModel() {
 
-    private val _weatherData = MutableLiveData<CurrentWeatherResponse>()
-    val weatherData: LiveData<CurrentWeatherResponse> get() = _weatherData
+    private val _weatherData = MutableLiveData<CurrentWeatherResponse?>()
+    val weatherData: MutableLiveData<CurrentWeatherResponse?> get() = _weatherData
 
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> get() = _isLoading
@@ -22,6 +22,14 @@ class CurrentWeatherViewModel() : ViewModel() {
 
     var errorMessage: String = ""
         private set
+
+    val message = MutableLiveData<String>()
+    val name = MutableLiveData<String>()
+    val region = MutableLiveData<String>()
+    val country = MutableLiveData<String>()
+    val localtime = MutableLiveData<String>()
+    val condition = MutableLiveData<String>()
+    val temperature = MutableLiveData<String>()
 
     fun getWeatherData(city: String) {
 
@@ -42,9 +50,14 @@ class CurrentWeatherViewModel() : ViewModel() {
                     onError("Data Processing Error")
                     return
                 }
-
                 _isLoading.value = false
-                _weatherData.postValue(responseBody)
+                name.postValue("Name: ${responseBody.location?.name}")
+                region.postValue("Region: ${responseBody.location?.region}")
+                country.postValue("Country: ${responseBody.location?.country}")
+                localtime.postValue("Local Time: ${responseBody.location?.localtime}")
+                condition.postValue("Condition: ${responseBody.current?.condition?.text}")
+                temperature.postValue("Temp: ${responseBody.current?.tempC} °C")
+//                _weatherData.postValue(responseBody)
             }
 
             override fun onFailure(call: Call<CurrentWeatherResponse>, t: Throwable) {

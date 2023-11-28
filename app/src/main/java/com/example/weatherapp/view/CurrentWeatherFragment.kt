@@ -6,15 +6,15 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.app.ActivityCompat
+import androidx.databinding.DataBindingUtil
 import com.example.weatherapp.R
 import com.example.weatherapp.model.CurrentWeatherResponse
 import com.example.weatherapp.viewmodel.CurrentWeatherViewModel
 import com.bumptech.glide.Glide
+import com.example.weatherapp.databinding.FragmentCurrentWeatherBinding
 import com.example.weatherapp.utils.LocationUtils
 import com.google.android.gms.location.FusedLocationProviderClient
 import java.lang.StringBuilder
@@ -37,13 +37,20 @@ class CurrentWeatherFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        checkLocationPermission()
+
+        val binding: FragmentCurrentWeatherBinding = DataBindingUtil.bind(view)!!
+
         currentWeatherViewModel = CurrentWeatherViewModel()
+
+        binding.viewModel = currentWeatherViewModel
+        binding.lifecycleOwner = viewLifecycleOwner
         subscribe()
 
         imgCondition = view.findViewById(R.id.img_condition)
         tvResult = view.findViewById(R.id.tv_result)
 
-        checkLocationPermission()
+
     }
 
     companion object {
@@ -63,7 +70,9 @@ class CurrentWeatherFragment : Fragment() {
         }
 
         currentWeatherViewModel.weatherData.observe(viewLifecycleOwner) { weatherData ->
-            setResultText(weatherData)
+            if (weatherData != null) {
+                setResultText(weatherData)
+            }
         }
     }
 
