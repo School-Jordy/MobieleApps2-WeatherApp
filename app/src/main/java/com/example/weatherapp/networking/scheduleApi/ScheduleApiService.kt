@@ -1,4 +1,4 @@
-package com.example.weatherapp.networking
+package com.example.weatherapp.networking.scheduleApi
 
 import com.example.weatherapp.model.LessonsResponse
 import retrofit2.Call

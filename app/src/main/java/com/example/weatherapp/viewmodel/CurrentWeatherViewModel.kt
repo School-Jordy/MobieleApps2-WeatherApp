@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.weatherapp.model.CurrentWeatherResponse
-import com.example.weatherapp.networking.ApiConfig
+import com.example.weatherapp.networking.weatherApi.WeatherApiConfig
 import retrofit2.Callback
 import retrofit2.Call
 import retrofit2.Response
@@ -36,7 +36,7 @@ class CurrentWeatherViewModel() : ViewModel() {
         _isLoading.value = true
         _isError.value = false
 
-        val client = ApiConfig.getApiService().getCurrentWeather(city= city)
+        val client = WeatherApiConfig.getApiService().getCurrentWeather(city= city)
 
         // Send API request using Retrofit
         client.enqueue(object : Callback<CurrentWeatherResponse> {

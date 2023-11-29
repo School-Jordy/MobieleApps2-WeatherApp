@@ -2,45 +2,54 @@ package com.example.weatherapp.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.example.weatherapp.model.LessonsResponse
-import com.example.weatherapp.networking.scheduleApi.ScheduleApiConfig
-import retrofit2.Callback
+import androidx.lifecycle.ViewModel
+import com.example.weatherapp.model.WeatherForecastResponse
+import com.example.weatherapp.networking.weatherApi.WeatherApiConfig
 import retrofit2.Call
+import retrofit2.Callback
 import retrofit2.Response
-class ScheduleViewModel {
-    private val _lessonsData = MutableLiveData<LessonsResponse>()
-    val lessonsData: LiveData<LessonsResponse> get() = _lessonsData
+
+class WeatherForecastViewModel : ViewModel() {
+    private val _forecastData = MutableLiveData<WeatherForecastResponse?>()
+    val forecastData: MutableLiveData<WeatherForecastResponse?> get() = _forecastData
+
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> get() = _isLoading
+
     private val _isError = MutableLiveData<Boolean>()
     val isError: LiveData<Boolean> get() = _isError
+
     var errorMessage: String = ""
         private set
 
-    fun getLessonsData(date: String) {
+    val forecastDataText = MutableLiveData<String>()
+
+    fun getForecastData(location: String, days: Int){
         _isLoading.value = true
         _isError.value = false
 
-        val client = ScheduleApiConfig.getLessonsApiService().getLessons(date = date)
+        val client = WeatherApiConfig.getApiService().getWeatherForecast(location= location, days = days)
 
-        client.enqueue(object : Callback<LessonsResponse> {
+        client.enqueue(object : Callback<WeatherForecastResponse> {
             override fun onResponse(
-                call: Call<LessonsResponse>,
-                response: Response<LessonsResponse>
+                call: Call<WeatherForecastResponse>,
+                response: Response<WeatherForecastResponse>
             ) {
                 val responseBody = response.body()
                 if (!response.isSuccessful || responseBody == null) {
                     onError("Data Processing Error")
                     return
                 }
+
                 _isLoading.value = false
-                _lessonsData.postValue(responseBody)
+                forecastDataText.postValue("name: ${responseBody.location?.name}")
             }
 
-            override fun onFailure(call: Call<LessonsResponse>, t: Throwable) {
+            override fun onFailure(call: Call<WeatherForecastResponse>, t: Throwable) {
                 onError(t.message)
                 t.printStackTrace()
             }
+
         })
     }
 

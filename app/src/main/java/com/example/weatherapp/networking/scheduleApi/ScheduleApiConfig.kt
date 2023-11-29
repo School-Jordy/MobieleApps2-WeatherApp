@@ -1,14 +1,14 @@
-package com.example.weatherapp.networking
+package com.example.weatherapp.networking.scheduleApi
 
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-class ApiConfig {
+class ScheduleApiConfig {
 
     companion object {
-        fun getApiService(): ApiService {
+        fun getLessonsApiService(): ScheduleApiService {
 
             // API response interceptor
             val loggingInterceptor = HttpLoggingInterceptor()
@@ -21,14 +21,12 @@ class ApiConfig {
 
             // Retrofit
             val retrofit = Retrofit.Builder()
-                .baseUrl("https://api.weatherapi.com/v1/")
+                .baseUrl("https://mobieleappsroosterapi.azurewebsites.net/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(client)
                 .build()
 
-            return retrofit.create(ApiService::class.java)
+            return retrofit.create(ScheduleApiService::class.java)
         }
-
-        const val API_KEY = "0851e7619d9240db80b122321232711"
     }
 }

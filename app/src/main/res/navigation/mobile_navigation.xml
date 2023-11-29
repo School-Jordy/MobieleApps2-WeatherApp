@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/navigation_weather"
-        android:name="com.example.weatherapp.view.CurrentWeatherFragment"
+        android:name="com.example.weatherapp.view.currentWeather.CurrentWeatherFragment"
         android:label="@string/title_weather"
         tools:layout="@layout/fragment_current_weather" />
 
@@ -16,4 +16,10 @@
         android:name="com.example.weatherapp.view.schedule.ScheduleFragment"
         android:label="@string/title_schedule"
         tools:layout="@layout/fragment_lessons" />
+
+    <fragment
+        android:id="@+id/navigation_forecast"
+        android:name="com.example.weatherapp.view.weatherForecast.HourlyForecastFragment"
+        android:label="@string/title_schedule"
+        tools:layout="@layout/fragment_hourly_forecast" />
 </navigation>
