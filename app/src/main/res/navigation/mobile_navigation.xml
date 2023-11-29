@@ -18,8 +18,8 @@
         tools:layout="@layout/fragment_lessons" />
 
     <fragment
-        android:id="@+id/navigation_forecast"
-        android:name="com.example.weatherapp.view.weatherForecast.HourlyForecastFragment"
+        android:id="@+id/navigation_schedule_list"
+        android:name="com.example.weatherapp.view.ScheduleListFragment"
         android:label="@string/title_schedule"
-        tools:layout="@layout/fragment_hourly_forecast" />
+        tools:layout="@layout/fragment_schedule_list" />
 </navigation>

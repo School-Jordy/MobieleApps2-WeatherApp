@@ -12,7 +12,7 @@
         android:title="@string/title_schedule" />
 
     <item
-        android:id="@+id/navigation_forecast"
-        android:icon="@drawable/baseline_cloud_24"
-        android:title="@string/title_weather" />
+        android:id="@+id/navigation_schedule_list"
+        android:icon="@drawable/baseline_format_list_bulleted_24"
+        android:title="List" />
 </menu>
