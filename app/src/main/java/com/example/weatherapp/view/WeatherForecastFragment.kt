@@ -1,6 +1,7 @@
 package com.example.weatherapp.view
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,6 +10,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.weatherapp.R
+import com.example.weatherapp.model.WeatherForecastResponse
 import com.example.weatherapp.viewmodel.ScheduleListViewModel
 import com.example.weatherapp.viewmodel.WeatherForecastViewModel
 
@@ -26,9 +28,20 @@ class WeatherForecastFragment : Fragment() {
         recyclerView = view.findViewById(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(context)
 
-        viewModel.forecastData.observe(viewLifecycleOwner) { forecastData ->
-            forecastData?.let {
-                recyclerView.adapter = WeatherForecastAdapter(it)
+        recyclerView.adapter = WeatherForecastAdapter(WeatherForecastResponse())
+
+
+//        viewModel.forecastData.observe(viewLifecycleOwner) { forecastData ->
+//            forecastData?.let {
+//                recyclerView.adapter = WeatherForecastAdapter(it)
+//            }
+//            }
+//        }
+
+        viewModel.hourItemList.observe(viewLifecycleOwner) { hourItemList ->
+            Log.d("Observer", "Data received: $hourItemList")
+            hourItemList?.let {
+                (recyclerView.adapter as? WeatherForecastAdapter)?.updateData(it)
             }
         }
 

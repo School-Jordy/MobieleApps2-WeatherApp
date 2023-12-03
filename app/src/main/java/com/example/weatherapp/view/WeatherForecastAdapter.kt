@@ -11,6 +11,7 @@ import com.example.weatherapp.model.LessonsItem
 import com.example.weatherapp.model.WeatherForecastResponse
 
 class WeatherForecastAdapter(private val forecastData: WeatherForecastResponse) : RecyclerView.Adapter<WeatherForecastAdapter.ViewHolder>() {
+    private var hourItems: List<HourItem> = listOf()
     class ViewHolder(inflater: LayoutInflater, parent: ViewGroup) :
         RecyclerView.ViewHolder(inflater.inflate(R.layout.hourly_weather_forecast_item, parent, false)) {
         private var tvTemperature: TextView? = null
@@ -29,17 +30,19 @@ class WeatherForecastAdapter(private val forecastData: WeatherForecastResponse) 
         return ViewHolder(inflater, parent)
     }
 
+    fun updateData(newHourItems: List<HourItem>) {
+        this.hourItems = newHourItems
+        notifyDataSetChanged()
+    }
+
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        Log.d( "List", forecastData.forecast?.forecastday?.get(0)?.hour.toString())
-        forecastData.forecast?.forecastday?.get(0)?.hour?.get(position)?.let { hourItem ->
-            Log.d("Item", hourItem.toString())
-            holder.bind(hourItem)
-        }
+        Log.d("items", hourItems.toString())
+        val hourItem = hourItems[position]
+        holder.bind(hourItem)
     }
 
     override fun getItemCount(): Int {
-        val size: Int = forecastData.forecast?.forecastday?.get(0)?.hour?.size ?: 0
-        Log.d("Size", size.toString())
-        return size
+        Log.d("Size", hourItems.size.toString())
+        return hourItems.size
     }
 }

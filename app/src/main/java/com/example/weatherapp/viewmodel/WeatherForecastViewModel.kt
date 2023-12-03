@@ -39,17 +39,16 @@ class WeatherForecastViewModel: ViewModel() {
                 response: Response<WeatherForecastResponse>
             ) {
                 val responseBody = response.body()
-                Log.d("Respose Body", responseBody.toString())
                 if (!response.isSuccessful || responseBody == null) {
                     onError("Data Processing Error")
                     return
                 }
                 _isLoading.value = false
-                Log.d("Hour items list", responseBody.forecast?.forecastday.toString())
-                Log.d("Hour items list", responseBody.forecast?.forecastday?.get(0).toString())
                 // Use safe calls to handle nullable types
                 val nonNullHourItems = responseBody.forecast?.forecastday?.get(0)?.hour?.filterNotNull() ?: listOf()
-                Log.d("Hour items", nonNullHourItems.size.toString())
+                nonNullHourItems.forEach() {
+                    Log.d("WeatherForecastViewModel", "HourItem: $it")
+                }
                 _hourItemList.postValue(nonNullHourItems)
             }
 

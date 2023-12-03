@@ -26,7 +26,7 @@ class ScheduleListFragment : Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(context)
 
         viewModel.lessonsList.observe(viewLifecycleOwner) { lessons ->
-            recyclerView.adapter = LessonsAdapter(lessons)
+            recyclerView.adapter = ScheduleAdapter(lessons)
         }
 
         // Oproepen van de API om de data te laden

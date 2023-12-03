@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.weatherapp.model.LessonsItem
 import com.example.weatherapp.R
 
-class LessonsAdapter(private val lessonsList: List<LessonsItem>) : RecyclerView.Adapter<LessonsAdapter.ViewHolder>() {
+class ScheduleAdapter(private val lessonsList: List<LessonsItem>) : RecyclerView.Adapter<ScheduleAdapter.ViewHolder>() {
 
     class ViewHolder(inflater: LayoutInflater, parent: ViewGroup) :
         RecyclerView.ViewHolder(inflater.inflate(R.layout.lesson_item, parent, false)) {
