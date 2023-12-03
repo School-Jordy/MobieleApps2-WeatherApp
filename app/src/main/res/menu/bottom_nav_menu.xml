@@ -15,4 +15,9 @@
         android:id="@+id/navigation_schedule_list"
         android:icon="@drawable/baseline_format_list_bulleted_24"
         android:title="List" />
+
+    <item
+        android:id="@+id/navigation_weather_forecast"
+        android:icon="@drawable/baseline_cloud_24"
+        android:title="Forecast" />
 </menu>

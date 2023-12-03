@@ -1,5 +1,6 @@
 package com.example.weatherapp.view
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.TextView
@@ -29,9 +30,16 @@ class WeatherForecastAdapter(private val forecastData: WeatherForecastResponse) 
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val lesson: LessonsItem = lessonsList[position]
-        holder.bind(lesson)
+        Log.d( "List", forecastData.forecast?.forecastday?.get(0)?.hour.toString())
+        forecastData.forecast?.forecastday?.get(0)?.hour?.get(position)?.let { hourItem ->
+            Log.d("Item", hourItem.toString())
+            holder.bind(hourItem)
+        }
     }
 
-    override fun getItemCount(): Int = lessonsList.size
+    override fun getItemCount(): Int {
+        val size: Int = forecastData.forecast?.forecastday?.get(0)?.hour?.size ?: 0
+        Log.d("Size", size.toString())
+        return size
+    }
 }

@@ -27,9 +27,11 @@ class WeatherForecastFragment : Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(context)
 
         viewModel.forecastData.observe(viewLifecycleOwner) { forecastData ->
-            recyclerView.adapter = WeatherForecastAdapter(forecastData)
+            forecastData?.let {
+                recyclerView.adapter = WeatherForecastAdapter(it)
+            }
         }
 
-        viewModel.getForecastData("Heusden-zolder", 1)
+        viewModel.getForecastData("Heusden-zolder")
     }
 }

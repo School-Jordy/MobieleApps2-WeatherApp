@@ -1,5 +1,6 @@
 package com.example.weatherapp.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -26,11 +27,11 @@ class WeatherForecastViewModel: ViewModel() {
     var errorMessage: String = ""
         private set
 
-    fun getForecastData(location: String, days: Int){
+    fun getForecastData(location: String){
         _isLoading.value = true
         _isError.value = false
 
-        val client = WeatherApiConfig.getApiService().getWeatherForecast(location= location, days= days)
+        val client = WeatherApiConfig.getApiService().getWeatherForecast(location= location)
 
         client.enqueue(object : Callback<WeatherForecastResponse> {
             override fun onResponse(
@@ -38,12 +39,18 @@ class WeatherForecastViewModel: ViewModel() {
                 response: Response<WeatherForecastResponse>
             ) {
                 val responseBody = response.body()
+                Log.d("Respose Body", responseBody.toString())
                 if (!response.isSuccessful || responseBody == null) {
                     onError("Data Processing Error")
                     return
                 }
                 _isLoading.value = false
-                _hourItemList.postValue(responseBody.forecast.forecastday[0].hour)
+                Log.d("Hour items list", responseBody.forecast?.forecastday.toString())
+                Log.d("Hour items list", responseBody.forecast?.forecastday?.get(0).toString())
+                // Use safe calls to handle nullable types
+                val nonNullHourItems = responseBody.forecast?.forecastday?.get(0)?.hour?.filterNotNull() ?: listOf()
+                Log.d("Hour items", nonNullHourItems.size.toString())
+                _hourItemList.postValue(nonNullHourItems)
             }
 
             override fun onFailure(call: Call<WeatherForecastResponse>, t: Throwable) {

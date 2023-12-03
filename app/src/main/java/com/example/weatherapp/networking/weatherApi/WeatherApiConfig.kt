@@ -29,6 +29,6 @@ class WeatherApiConfig {
             return retrofit.create(WeatherApiService::class.java)
         }
 
-        const val API_KEY = "0851e7619d9240db80b122321232711"
+        const val API_KEY = "c717e43524db4057858193046230212"
     }
 }

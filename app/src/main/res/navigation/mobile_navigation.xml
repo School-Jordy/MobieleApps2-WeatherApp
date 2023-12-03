@@ -22,4 +22,10 @@
         android:name="com.example.weatherapp.view.ScheduleListFragment"
         android:label="@string/title_schedule"
         tools:layout="@layout/fragment_schedule_list" />
+
+    <fragment
+        android:id="@+id/navigation_weather_forecast"
+        android:name="com.example.weatherapp.view.WeatherForecastFragment"
+        android:label="@string/title_weather"
+        tools:layout="@layout/fragment_weather_forecast" />
 </navigation>

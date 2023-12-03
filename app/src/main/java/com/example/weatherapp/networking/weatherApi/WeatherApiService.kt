@@ -23,6 +23,5 @@ interface WeatherApiService {
         @Query("aqi") aqi: String = "no",
         @Query("alerts") alerts: String = "no",
         @Query("lang") lang: String = "nl",
-        @Query("days") days: Int
     ): Call<WeatherForecastResponse>
 }
