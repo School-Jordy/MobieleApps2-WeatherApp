@@ -5,7 +5,7 @@
 
     <data>
         <variable
-            name="hourItem" type="com.example.weatherapp.model.HourItem" />
+            name="hourItem" type="com.example.weatherapp.weather.model.HourItem" />
     </data>
 
     <TextView

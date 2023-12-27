@@ -6,7 +6,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.example.weatherapp.viewmodel.CurrentWeatherViewModel"/>
+            type="com.example.weatherapp.weather.viewmodel.CurrentWeatherViewModel"/>
     </data>
 
     <LinearLayout
@@ -14,7 +14,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:gravity="center_horizontal"
-        tools:context=".view.currentWeather.CurrentWeatherFragment">
+        tools:context=".weather.view.CurrentWeatherFragment">
 
         <ImageView
             android:id="@+id/img_condition"

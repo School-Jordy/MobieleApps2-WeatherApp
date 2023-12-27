@@ -1,6 +1,6 @@
 package com.example.weatherapp.networking.scheduleApi
 
-import com.example.weatherapp.model.LessonsResponse
+import com.example.weatherapp.schedule.model.LessonsResponse
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Query

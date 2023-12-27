@@ -1,6 +1,7 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+
 }
 
 android {
@@ -34,6 +35,7 @@ android {
         jvmTarget = "1.8"
     }
     buildFeatures {
+        //noinspection DataBindingWithoutKapt
         dataBinding = true
         viewBinding = true
     }
@@ -43,7 +45,7 @@ dependencies {
 
     implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
-    implementation("com.google.android.material:material:1.10.0")
+    implementation("com.google.android.material:material:1.11.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation("androidx.legacy:legacy-support-v4:1.0.0")
     testImplementation("junit:junit:4.13.2")
@@ -62,7 +64,7 @@ dependencies {
     implementation("com.github.bumptech.glide:glide:4.14.2")
     annotationProcessor("com.github.bumptech.glide:compiler:4.14.2")
 
-    val navVersion = "2.7.5"
+    val navVersion = "2.7.6"
 
     // Java language implementation
     implementation("androidx.navigation:navigation-fragment-ktx:$navVersion")
@@ -85,4 +87,7 @@ dependencies {
     implementation("androidx.cardview:cardview:1.0.0")
 
     implementation("com.google.android.gms:play-services-location:21.0.1")
+
+    implementation("com.github.bumptech.glide:glide:4.14.2")
+    annotationProcessor("com.github.bumptech.glide:compiler:4.14.2")
 }

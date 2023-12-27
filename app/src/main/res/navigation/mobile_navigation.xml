@@ -3,29 +3,50 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/navigation_schedule">
-
-    <fragment
-        android:id="@+id/navigation_weather"
-        android:name="com.example.weatherapp.view.currentWeather.CurrentWeatherFragment"
-        android:label="@string/title_weather"
-        tools:layout="@layout/fragment_current_weather" />
-
-    <fragment
-        android:id="@+id/navigation_schedule"
-        android:name="com.example.weatherapp.view.schedule.ScheduleFragment"
-        android:label="@string/title_schedule"
-        tools:layout="@layout/fragment_lessons" />
+    app:startDestination="@+id/navigation_home">
 
     <fragment
         android:id="@+id/navigation_schedule_list"
-        android:name="com.example.weatherapp.view.ScheduleListFragment"
+        android:name="com.example.weatherapp.schedule.view.ScheduleListFragment"
         android:label="@string/title_schedule"
         tools:layout="@layout/fragment_schedule_list" />
 
     <fragment
-        android:id="@+id/navigation_weather_forecast"
-        android:name="com.example.weatherapp.view.WeatherForecastFragment"
+        android:id="@+id/navigation_home"
+        android:name="com.example.weatherapp.home.view.HomeFragment"
+        android:label="Home"
+        tools:layout="@layout/fragment_weather_full" />
+
+    <fragment
+        android:id="@+id/navigation_weather_full"
+        android:name="com.example.weatherapp.weather.view.WeatherFullFragment"
         android:label="@string/title_weather"
-        tools:layout="@layout/fragment_weather_forecast" />
+        tools:layout="@layout/fragment_weather_full" />
+
+<!--    <fragment-->
+<!--        android:id="@+id/navigation_schedule_list"-->
+<!--        android:name="com.example.weatherapp.home.view.HomeFragment"-->
+<!--        android:label="@string/title_schedule"-->
+<!--        tools:layout="@layout/fragment_schedule_list" />-->
+
+<!--    <fragment-->
+<!--        android:id="@+id/navigation_weather"-->
+<!--        android:name="com.example.weatherapp.view.currentWeather.view.CurrentWeatherFragment"-->
+<!--        android:label="@string/title_weather"-->
+<!--        tools:layout="@layout/fragment_current_weather" />-->
+
+<!--    <fragment-->
+<!--        android:id="@+id/navigation_schedule"-->
+<!--        android:name="com.example.weatherapp.schedule.view.ScheduleFragment"-->
+<!--        android:label="@string/title_schedule"-->
+<!--        tools:layout="@layout/fragment_lessons" />-->
+
+
+<!--    <fragment-->
+<!--        android:id="@+id/navigation_weather_forecast"-->
+<!--        android:name="com.example.weatherapp.view.weather.view.WeatherForecastFragment"-->
+<!--        android:label="@string/title_weather"-->
+<!--        tools:layout="@layout/fragment_weather_forecast" />-->
+
+
 </navigation>
