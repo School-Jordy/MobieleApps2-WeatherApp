@@ -28,10 +28,10 @@ data class LessonsItem(
 
 data class ExtremeTimes(
 
-	@field:SerializedName("end")
-	val end: String? = null,
+	@field:SerializedName("begin_time")
+	val begin: String? = null,
 
-	@field:SerializedName("begin")
-	val begin: String? = null
+	@field:SerializedName("end_time")
+	val end: String? = null
 )
 

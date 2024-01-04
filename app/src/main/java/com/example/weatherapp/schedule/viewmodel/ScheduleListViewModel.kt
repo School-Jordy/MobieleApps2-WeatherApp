@@ -1,5 +1,6 @@
 package com.example.weatherapp.schedule.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -40,6 +41,7 @@ class ScheduleListViewModel : ViewModel() {
                     return
                 }
                 _isLoading.value = false
+                Log.d("ScheduleListViewModel", "onResponse: $responseBody")
                 _lessonsList.postValue(responseBody.lessons?.filterNotNull())
             }
 
