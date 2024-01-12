@@ -38,4 +38,8 @@ class MainActivity : AppCompatActivity() {
         binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
     }
 
+    companion object {
+        const val currentDate: String = "2023-11-30"
+    }
+
 }

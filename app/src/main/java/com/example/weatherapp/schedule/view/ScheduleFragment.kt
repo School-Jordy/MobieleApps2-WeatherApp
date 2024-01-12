@@ -37,7 +37,6 @@ class ScheduleFragment : Fragment() {
         scheduleViewModel.getLessonsData("2023-11-30")
 //        }
     }
-
     private fun subscribe() {
         scheduleViewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
             if (isLoading) tvResult.text = getString(R.string.loading)
