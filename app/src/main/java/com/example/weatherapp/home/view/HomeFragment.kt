@@ -1,29 +1,23 @@
 package com.example.weatherapp.home.view
 
-import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.app.ActivityCompat
+import android.widget.ImageView
 import androidx.databinding.DataBindingUtil
 import com.example.weatherapp.MainActivity
 import com.example.weatherapp.R
-import com.example.weatherapp.databinding.FragmentCurrentWeatherBinding
 import com.example.weatherapp.databinding.FragmentHomeBinding
-import com.example.weatherapp.databinding.FragmentWeatherFullBinding
 import com.example.weatherapp.home.viewmodel.HomeViewModel
-import com.example.weatherapp.schedule.viewmodel.ScheduleViewModel
-import com.example.weatherapp.utils.LocationUtils
-import com.example.weatherapp.weather.view.CurrentWeatherFragment
-import com.example.weatherapp.weather.viewmodel.CurrentWeatherViewModel
 
 
 class HomeFragment : Fragment() {
     private lateinit var homeViewModel: HomeViewModel
     private lateinit var binding: FragmentHomeBinding
+    private lateinit var imgCondition: ImageView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,16 +31,28 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding = DataBindingUtil.bind(view)!!
-        Log.d("HomeFragment", "onViewCreated: $binding")
         homeViewModel = HomeViewModel()
-        Log.d("HomeFragment", "onViewCreated: $homeViewModel")
         binding.viewModel = homeViewModel
         binding.lifecycleOwner = viewLifecycleOwner
 
         homeViewModel.getStartHour(MainActivity.currentDate)
 
+        imgCondition = view.findViewById(R.id.img_vehicle)
+
         homeViewModel.firstHourInt.observe(viewLifecycleOwner) { firstHour ->
-            homeViewModel.getWeatherForHour(firstHour)
+            homeViewModel.checkWeatherForCities(firstHour)
+        }
+
+        homeViewModel.goingToRain.observe(viewLifecycleOwner) { going_to_rain ->
+            if (going_to_rain) {
+                imgCondition.setImageResource(R.drawable.baseline_directions_car_filled_24)
+                Log.d("HomeFragment", "It's going to rain")
+                homeViewModel.rainingText.postValue("It's going to rain")
+            } else {
+                imgCondition.setImageResource(R.drawable.baseline_pedal_bike_24)
+                Log.d("HomeFragment", "It's not going to rain")
+                homeViewModel.rainingText.postValue("It's not going to rain")
+            }
         }
     }
 }

@@ -1,30 +1,29 @@
 package com.example.weatherapp.weather.view
 
-import android.content.pm.PackageManager
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.core.app.ActivityCompat
 import androidx.databinding.DataBindingUtil
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.weatherapp.R
 import com.example.weatherapp.databinding.FragmentWeatherFullBinding
-import com.example.weatherapp.utils.LocationUtils
 import com.example.weatherapp.MainActivity
+import com.example.weatherapp.weather.model.WeatherForecastResponse
 import com.example.weatherapp.weather.viewmodel.WeatherFullViewModel
-import com.google.android.gms.location.FusedLocationProviderClient
 
 class WeatherFullFragment : Fragment() {
     private lateinit var weatherFullViewModel: WeatherFullViewModel
     private lateinit var imgCondition: ImageView
     private lateinit var tvResult: TextView
-    private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
     private lateinit var binding: FragmentWeatherFullBinding
+    private lateinit var hourlyForecastRecyclerView: RecyclerView
+    private lateinit var dailyForecastRecyclerView: RecyclerView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,23 +36,28 @@ class WeatherFullFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        checkLocationPermission()
-
         binding = DataBindingUtil.bind(view)!!
 
         weatherFullViewModel = WeatherFullViewModel()
 
         binding.viewModel = weatherFullViewModel
         binding.lifecycleOwner = viewLifecycleOwner
+
+        hourlyForecastRecyclerView = view.findViewById(R.id.hourlyForecastRecyclerView)
+        hourlyForecastRecyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+        hourlyForecastRecyclerView.adapter = HourlyForecastAdapter(WeatherForecastResponse())
+
+        dailyForecastRecyclerView = view.findViewById(R.id.dailyForecastRecyclerView)
+        dailyForecastRecyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+        dailyForecastRecyclerView.adapter = DailyForecastAdapter(WeatherForecastResponse())
+
         subscribe()
+
+        weatherFullViewModel.getWeatherData("${MainActivity.latitude},${MainActivity.longitude}")
 
         imgCondition = view.findViewById(R.id.img_condition)
 
 
-    }
-
-    companion object {
-        private const val LOCATION_PERMISSION_REQUEST_CODE = 1
     }
 
     private fun subscribe() {
@@ -67,58 +71,25 @@ class WeatherFullFragment : Fragment() {
             }
         }
 
-        weatherFullViewModel.weatherData.observe(viewLifecycleOwner) { weatherData ->
-        }
-
         weatherFullViewModel.iconUrl.observe(viewLifecycleOwner) { url ->
             url?.let {
-                Log.d("WeatherFullViewModel", "onResponse: $imgCondition")
                 Glide.with(this)
                     .load("https:$it")
                     .override(64, 64)
-                    .placeholder(R.drawable.baseline_cloud_24)
                     .into(imgCondition)
             }
         }
-    }
 
-    private fun setResultImage(imageUrl: String?) {
-        imageUrl?.let { url ->
-            Glide.with(this)
-                .load("https:$url")
-                .into(imgCondition)
-
-            imgCondition.visibility = View.VISIBLE
-        } ?: run {
-            imgCondition.visibility = View.GONE
-        }
-    }
-
-    // Voeg de volgende functies toe in de fragment-klasse
-    private fun checkLocationPermission() {
-        if (ActivityCompat.checkSelfPermission(requireContext(), android.Manifest.permission.ACCESS_FINE_LOCATION)
-            != PackageManager.PERMISSION_GRANTED) {
-            requestPermissions(arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION), LOCATION_PERMISSION_REQUEST_CODE)
-        } else {
-            getLocationAndFetchWeather()
-        }
-    }
-
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
-        when (requestCode) {
-            LOCATION_PERMISSION_REQUEST_CODE -> {
-                if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
-                    getLocationAndFetchWeather()
-                } else {
-                }
+        weatherFullViewModel.hourlyForecastItemList.observe(viewLifecycleOwner) { hourItemList ->
+            hourItemList?.let {
+                (hourlyForecastRecyclerView.adapter as? HourlyForecastAdapter)?.updateData(it)
             }
         }
-    }
 
-    private fun getLocationAndFetchWeather() {
-        val locationUtils = LocationUtils(requireContext())
-        locationUtils.getLastLocation { latLng ->
-            weatherFullViewModel.getWeatherData(latLng)
+        weatherFullViewModel.dailyForecastItemList.observe(viewLifecycleOwner) { dayItemList ->
+            dayItemList?.let {
+                (dailyForecastRecyclerView.adapter as? DailyForecastAdapter)?.updateData(it)
+            }
         }
     }
 }

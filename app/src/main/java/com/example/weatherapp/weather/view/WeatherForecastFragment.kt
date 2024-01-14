@@ -27,7 +27,7 @@ class WeatherForecastFragment : Fragment() {
         recyclerView = view.findViewById(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(context)
 
-        recyclerView.adapter = WeatherForecastAdapter(WeatherForecastResponse())
+        recyclerView.adapter = HourlyForecastAdapter(WeatherForecastResponse())
 
 
 //        viewModel.forecastData.observe(viewLifecycleOwner) { forecastData ->
@@ -40,7 +40,7 @@ class WeatherForecastFragment : Fragment() {
         viewModel.hourItemList.observe(viewLifecycleOwner) { hourItemList ->
             Log.d("Observer", "Data received: $hourItemList")
             hourItemList?.let {
-                (recyclerView.adapter as? WeatherForecastAdapter)?.updateData(it)
+                (recyclerView.adapter as? HourlyForecastAdapter)?.updateData(it)
             }
         }
 

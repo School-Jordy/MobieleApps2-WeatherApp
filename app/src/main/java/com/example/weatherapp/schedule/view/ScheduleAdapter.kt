@@ -12,20 +12,20 @@ class ScheduleAdapter(private val lessonsList: List<LessonsItem>) : RecyclerView
     class ViewHolder(inflater: LayoutInflater, parent: ViewGroup) :
         RecyclerView.ViewHolder(inflater.inflate(R.layout.lesson_item, parent, false)) {
         private var tvName: TextView? = null
-        private var tvDate: TextView? = null
+//        private var tvDate: TextView? = null
         private var tvBegin: TextView? = null
         private var tvEnd: TextView? = null
 
         init {
             tvName = itemView.findViewById(R.id.tvName)
-            tvDate = itemView.findViewById(R.id.tvDate)
+//            tvDate = itemView.findViewById(R.id.tvDate)
             tvBegin = itemView.findViewById(R.id.tvBegin)
             tvEnd = itemView.findViewById(R.id.tvEnd)
         }
 
         fun bind(lesson: LessonsItem) {
             tvName?.text = lesson.name
-            tvDate?.text = lesson.date
+//            tvDate?.text = lesson.date
             tvBegin?.text = lesson.begin
             tvEnd?.text = lesson.end
         }

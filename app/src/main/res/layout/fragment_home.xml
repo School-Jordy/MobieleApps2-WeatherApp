@@ -1,27 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@drawable/background_gradient"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
         <variable
             name="viewModel"
-            type="com.example.weatherapp.home.viewmodel.HomeViewModel"/>
+            type="com.example.weatherapp.home.viewmodel.HomeViewModel" />
     </data>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:background="@drawable/background_gradient"
-        android:gravity="center_horizontal">
+        android:gravity="center"
+        android:padding="16dp">
 
         <TextView
-            android:id="@+id/tv_first_hour"
+            android:id="@+id/tv_going_to_rain"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:textColor="@android:color/white"
+            android:text="@{viewModel.rainingText}" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:textStyle="italic"
+            android:textColor="@android:color/white"
+            android:text="Consider your transportation options"
+            android:layout_marginTop="8dp" />
+
+        <ImageView
+            android:id="@+id/img_vehicle"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            android:contentDescription="Vehicle" />
+
+        <TextView
+            android:id="@+id/tv_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="20sp"
-            android:text="@{viewModel.firstHourFull}"/>
+            android:textColor="@android:color/white"
+            android:text="@{`Your lessons go from ` + viewModel.timeBegin + ` to ` + viewModel.timeEnd}"
+            android:layout_marginTop="16dp" />
+
     </LinearLayout>
 
 </layout>
