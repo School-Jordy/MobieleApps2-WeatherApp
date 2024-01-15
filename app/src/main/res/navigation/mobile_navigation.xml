@@ -22,6 +22,4 @@
         android:name="com.example.weatherapp.weather.view.WeatherFullFragment"
         android:label="@string/title_weather"
         tools:layout="@layout/fragment_weather_full" />
-
-
 </navigation>

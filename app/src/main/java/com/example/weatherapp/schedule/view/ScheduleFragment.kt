@@ -26,18 +26,12 @@ class ScheduleListFragment : Fragment() {
         recyclerView = view.findViewById(R.id.scheduleRecyclerView)
         recyclerView.layoutManager = LinearLayoutManager(context)
 
-        scheduleViewModel.lessonsList.observe(viewLifecycleOwner) { lessons ->
-            recyclerView.adapter = ScheduleAdapter(lessons)
-        }
-
-        scheduleViewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
-            (activity as? MainActivity)?.showLoading(isLoading)
-        }
+        subscribe()
 
         scheduleViewModel.getLessonsData(MainActivity.currentDate)
     }
 
-    fun subscribe() {
+    private fun subscribe() {
         scheduleViewModel.lessonsList.observe(viewLifecycleOwner) { lessons ->
             recyclerView.adapter = ScheduleAdapter(lessons)
         }
