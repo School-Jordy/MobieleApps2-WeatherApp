@@ -1,6 +1,5 @@
 package com.example.weatherapp.weather.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -14,10 +13,6 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class WeatherFullViewModel() : ViewModel() {
-
-    private val _weatherData = MutableLiveData<CurrentWeatherResponse?>()
-    val weatherData: MutableLiveData<CurrentWeatherResponse?> get() = _weatherData
-
     private val _hourlyForecastItemList = MutableLiveData<List<HourItem>>()
     val hourlyForecastItemList: LiveData<List<HourItem>?> = _hourlyForecastItemList
 
@@ -33,7 +28,6 @@ class WeatherFullViewModel() : ViewModel() {
     var errorMessage: String = ""
         private set
 
-    val icon = MutableLiveData<String>()
     val region = MutableLiveData<String>()
     val temperature = MutableLiveData<String>()
 
@@ -43,9 +37,8 @@ class WeatherFullViewModel() : ViewModel() {
         _isLoading.value = true
         _isError.value = false
 
-        val currentWeatherClient = WeatherApiConfig.getApiService().getCurrentWeather(city = city)
+        val currentWeatherClient = WeatherApiConfig.getApiService().getCurrentWeather(location = city)
 
-        // Send API request using Retrofit
         currentWeatherClient.enqueue(object : Callback<CurrentWeatherResponse> {
 
             override fun onResponse(
@@ -84,11 +77,12 @@ class WeatherFullViewModel() : ViewModel() {
                     onError("Data Processing Error")
                     return
                 }
-                _isLoading.value = false
 
                 _hourlyForecastItemList.postValue(responseBody.forecast?.forecastday?.get(0)?.hour?.filterNotNull())
 
                 _dailyForecastItemList.postValue(responseBody.forecast?.forecastday?.filterNotNull())
+
+                _isLoading.value = false
             }
 
             override fun onFailure(call: Call<WeatherForecastResponse>, t: Throwable) {

@@ -39,19 +39,31 @@ class HomeFragment : Fragment() {
 
         imgCondition = view.findViewById(R.id.img_vehicle)
 
+        subscribe()
+    }
+
+    private fun subscribe(){
         homeViewModel.firstHourInt.observe(viewLifecycleOwner) { firstHour ->
             homeViewModel.checkWeatherForCities(firstHour)
         }
 
-        homeViewModel.goingToRain.observe(viewLifecycleOwner) { going_to_rain ->
-            if (going_to_rain) {
+        homeViewModel.goingToRain.observe(viewLifecycleOwner) { goingToRain ->
+            if (goingToRain) {
                 imgCondition.setImageResource(R.drawable.baseline_directions_car_filled_24)
-                Log.d("HomeFragment", "It's going to rain")
-                homeViewModel.rainingText.postValue("It's going to rain")
+                homeViewModel.rainingText.postValue(context?.getString(R.string.going_to_rain))
             } else {
                 imgCondition.setImageResource(R.drawable.baseline_pedal_bike_24)
-                Log.d("HomeFragment", "It's not going to rain")
-                homeViewModel.rainingText.postValue("It's not going to rain")
+                homeViewModel.rainingText.postValue(context?.getString(R.string.not_going_to_rain))
+            }
+        }
+
+        homeViewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
+            (activity as? MainActivity)?.showLoading(isLoading)
+        }
+
+        homeViewModel.isError.observe(viewLifecycleOwner) { isError ->
+            if (isError) {
+                context?.let { (activity as? MainActivity)?.showError(it, homeViewModel.errorMessage) }
             }
         }
     }

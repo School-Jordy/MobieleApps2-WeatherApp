@@ -1,13 +1,11 @@
 package com.example.weatherapp.home.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.weatherapp.MainActivity
 import com.example.weatherapp.networking.scheduleApi.ScheduleApiConfig
 import com.example.weatherapp.networking.weatherApi.WeatherApiConfig
-import com.example.weatherapp.schedule.model.LessonsResponse
+import com.example.weatherapp.schedule.model.ScheduleResponse
 import com.example.weatherapp.utils.Utils
 import com.example.weatherapp.weather.model.WeatherForecastResponse
 import retrofit2.Call
@@ -38,10 +36,10 @@ class HomeViewModel : ViewModel() {
 
         val client = ScheduleApiConfig.getLessonsApiService().getLessons(date = date)
 
-        client.enqueue(object : Callback<LessonsResponse> {
+        client.enqueue(object : Callback<ScheduleResponse> {
             override fun onResponse(
-                call: Call<LessonsResponse>,
-                response: Response<LessonsResponse>
+                call: Call<ScheduleResponse>,
+                response: Response<ScheduleResponse>
             ) {
                 val responseBody = response.body()
                 if (!response.isSuccessful || responseBody == null) {
@@ -55,22 +53,11 @@ class HomeViewModel : ViewModel() {
                 firstHourInt.postValue(Utils.extractHourFromStingTime(responseBody.extremeTimes?.begin ?: "00:00"))
             }
 
-            override fun onFailure(call: Call<LessonsResponse>, t: Throwable) {
+            override fun onFailure(call: Call<ScheduleResponse>, t: Throwable) {
                 onError(t.message)
                 t.printStackTrace()
             }
         })
-    }
-
-    fun checkWeatherForCities(firstHour: Int) {
-        for (city in cityList) {
-            getWeatherForCity(city, firstHour) { willItRain ->
-                if (willItRain == 1) {
-                    goingToRain.postValue(true)
-                }
-            }
-        }
-        goingToRain.postValue(false)
     }
 
     private fun getWeatherForCity(city: String, firstHour: Int, callback: (Int) -> Unit) {
@@ -97,6 +84,20 @@ class HomeViewModel : ViewModel() {
                 callback(0)
             }
         })
+    }
+
+    fun checkWeatherForCities(firstHour: Int) {
+        var goingToRainTemp = false
+        for (city in cityList) {
+            getWeatherForCity(city, firstHour) { willItRain ->
+                if (willItRain == 1) {
+                    goingToRainTemp = true
+                }
+            }
+        }
+        goingToRain.postValue(goingToRainTemp)
+
+        _isLoading.value = false
     }
 
     private fun onError(inputMessage: String?) {

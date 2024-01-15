@@ -4,64 +4,52 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.weatherapp.R
-import com.example.weatherapp.schedule.model.LessonsResponse
 import com.example.weatherapp.schedule.viewmodel.ScheduleViewModel
-import kotlin.text.StringBuilder
+import com.example.weatherapp.MainActivity
 
-class ScheduleFragment : Fragment() {
+class ScheduleListFragment : Fragment() {
     private lateinit var scheduleViewModel: ScheduleViewModel
-    private lateinit var tvResult: TextView
-    private lateinit var btnSend: Button
+    private lateinit var recyclerView: RecyclerView
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_lessons, container, false)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        return inflater.inflate(R.layout.fragment_schedule, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        scheduleViewModel = ViewModelProvider(this)[ScheduleViewModel::class.java]
+        recyclerView = view.findViewById(R.id.scheduleRecyclerView)
+        recyclerView.layoutManager = LinearLayoutManager(context)
 
-        scheduleViewModel = ScheduleViewModel()
-        subscribe()
+        scheduleViewModel.lessonsList.observe(viewLifecycleOwner) { lessons ->
+            recyclerView.adapter = ScheduleAdapter(lessons)
+        }
 
-        tvResult = view.findViewById(R.id.tv_lessons)
-//        btnSend = view.findViewById(R.id.btn_send_request)
-
-//        btnSend.setOnClickListener {
-        scheduleViewModel.getLessonsData("2023-11-30")
-//        }
-    }
-    private fun subscribe() {
         scheduleViewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
-            if (isLoading) tvResult.text = getString(R.string.loading)
+            (activity as? MainActivity)?.showLoading(isLoading)
+        }
+
+        scheduleViewModel.getLessonsData(MainActivity.currentDate)
+    }
+
+    fun subscribe() {
+        scheduleViewModel.lessonsList.observe(viewLifecycleOwner) { lessons ->
+            recyclerView.adapter = ScheduleAdapter(lessons)
+        }
+
+        scheduleViewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
+            (activity as? MainActivity)?.showLoading(isLoading)
         }
 
         scheduleViewModel.isError.observe(viewLifecycleOwner) { isError ->
-            if (isError) tvResult.text = scheduleViewModel.errorMessage
-        }
-
-        scheduleViewModel.lessonsData.observe(viewLifecycleOwner) { lessonsData ->
-            setResultText(lessonsData)
-        }
-    }
-
-    private fun setResultText(lessonsData: LessonsResponse) {
-        val resultText = StringBuilder("Result:\n")
-        lessonsData.lessons?.forEach { lessonItem ->
-            lessonItem?.let {
-                resultText.append("Name: ${it.name}\n")
-                resultText.append("Date: ${it.date}\n")
-                resultText.append("Begin Time: ${it.begin}\n")
-                resultText.append("End Time: ${it.end}\n\n")
+            if (isError) {
+                context?.let { (activity as? MainActivity)?.showError(it, scheduleViewModel.errorMessage) }
             }
         }
-
-        tvResult.text = resultText
     }
 }

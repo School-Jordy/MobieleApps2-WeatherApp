@@ -7,7 +7,30 @@
     android:padding="16dp">
 
     <TextView
-        android:id="@+id/tvDate"
+        android:id="@+id/tvDay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="14sp"
+        android:gravity="center" />
+
+    <ImageView
+        android:id="@+id/ivRainIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:src="@drawable/baseline_water_drop_24"
+        android:contentDescription="@string/ivRainIconDescription" />
+
+    <TextView
+        android:id="@+id/tvChanceOfRain"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="14sp"
+        android:gravity="center" />
+
+    <TextView
+        android:id="@+id/tvMinMax"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="14sp"

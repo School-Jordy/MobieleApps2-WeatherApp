@@ -14,13 +14,11 @@ import com.bumptech.glide.Glide
 import com.example.weatherapp.R
 import com.example.weatherapp.databinding.FragmentWeatherFullBinding
 import com.example.weatherapp.MainActivity
-import com.example.weatherapp.weather.model.WeatherForecastResponse
 import com.example.weatherapp.weather.viewmodel.WeatherFullViewModel
 
 class WeatherFullFragment : Fragment() {
     private lateinit var weatherFullViewModel: WeatherFullViewModel
     private lateinit var imgCondition: ImageView
-    private lateinit var tvResult: TextView
     private lateinit var binding: FragmentWeatherFullBinding
     private lateinit var hourlyForecastRecyclerView: RecyclerView
     private lateinit var dailyForecastRecyclerView: RecyclerView
@@ -45,32 +43,20 @@ class WeatherFullFragment : Fragment() {
 
         hourlyForecastRecyclerView = view.findViewById(R.id.hourlyForecastRecyclerView)
         hourlyForecastRecyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-        hourlyForecastRecyclerView.adapter = HourlyForecastAdapter(WeatherForecastResponse())
+        hourlyForecastRecyclerView.adapter = HourlyForecastAdapter()
 
         dailyForecastRecyclerView = view.findViewById(R.id.dailyForecastRecyclerView)
         dailyForecastRecyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-        dailyForecastRecyclerView.adapter = DailyForecastAdapter(WeatherForecastResponse())
+        dailyForecastRecyclerView.adapter = DailyForecastAdapter()
 
         subscribe()
 
         weatherFullViewModel.getWeatherData("${MainActivity.latitude},${MainActivity.longitude}")
 
         imgCondition = view.findViewById(R.id.img_condition)
-
-
     }
 
     private fun subscribe() {
-        weatherFullViewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
-            (activity as? MainActivity)?.showLoading(isLoading)
-        }
-
-        weatherFullViewModel.isError.observe(viewLifecycleOwner) { isError ->
-            if (isError) {
-                imgCondition.visibility = View.GONE
-            }
-        }
-
         weatherFullViewModel.iconUrl.observe(viewLifecycleOwner) { url ->
             url?.let {
                 Glide.with(this)
@@ -89,6 +75,16 @@ class WeatherFullFragment : Fragment() {
         weatherFullViewModel.dailyForecastItemList.observe(viewLifecycleOwner) { dayItemList ->
             dayItemList?.let {
                 (dailyForecastRecyclerView.adapter as? DailyForecastAdapter)?.updateData(it)
+            }
+        }
+
+        weatherFullViewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
+            (activity as? MainActivity)?.showLoading(isLoading)
+        }
+
+        weatherFullViewModel.isError.observe(viewLifecycleOwner) { isError ->
+            if (isError) {
+                context?.let { (activity as? MainActivity)?.showError(it, weatherFullViewModel.errorMessage) }
             }
         }
     }

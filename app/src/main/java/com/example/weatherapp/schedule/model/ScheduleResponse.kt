@@ -2,7 +2,7 @@ package com.example.weatherapp.schedule.model
 
 import com.google.gson.annotations.SerializedName
 
-data class LessonsResponse(
+data class ScheduleResponse(
 
     @field:SerializedName("extreme_times")
 	val extremeTimes: ExtremeTimes? = null,

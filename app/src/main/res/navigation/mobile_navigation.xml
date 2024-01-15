@@ -9,7 +9,7 @@
         android:id="@+id/navigation_schedule_list"
         android:name="com.example.weatherapp.schedule.view.ScheduleListFragment"
         android:label="@string/title_schedule"
-        tools:layout="@layout/fragment_schedule_list" />
+        tools:layout="@layout/fragment_schedule" />
 
     <fragment
         android:id="@+id/navigation_home"

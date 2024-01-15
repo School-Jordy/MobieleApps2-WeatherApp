@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@drawable/background_gradient">
 
     <data>
         <variable
@@ -13,7 +13,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:background="@drawable/background_gradient"
         android:gravity="center_horizontal"
         tools:context=".view.weather.WeatherFullFragment">
 
@@ -42,7 +41,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:textSize="20sp"
-            android:text="Hourly forecast"/>
+            android:text="@string/hourly_forecast"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/hourlyForecastRecyclerView"
@@ -54,7 +53,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:textSize="20sp"
-            android:text="Daily forecast"/>
+            android:text="@string/daily_forecast"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/dailyForecastRecyclerView"
