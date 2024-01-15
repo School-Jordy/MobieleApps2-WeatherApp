@@ -20,5 +20,7 @@
     <string name="hourly_forecast">Hourly forecast</string>
     <string name="daily_forecast">Daily forecast</string>
     <string name="schedule">Schedule</string>
-
+    <string name="schedule_title">Schedule</string>
+    <string name="home_title">Home</string>
+    <string name="weather_title">Weather</string>
 </resources>

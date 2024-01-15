@@ -4,32 +4,16 @@
     <item
         android:id="@+id/navigation_schedule_list"
         android:icon="@drawable/baseline_format_list_bulleted_24"
-        android:title="Schedule" />
+        android:title="@string/schedule_title" />
 
     <item
         android:id="@+id/navigation_home"
         android:icon="@drawable/baseline_home_24"
-        android:title="Home" />
+        android:title="@string/home_title" />
 
     <item
         android:id="@+id/navigation_weather_full"
         android:icon="@drawable/baseline_cloud_24"
-        android:title="Weather" />
-
-<!--    <item-->
-<!--        android:id="@+id/navigation_weather"-->
-<!--        android:icon="@drawable/baseline_cloud_24"-->
-<!--        android:title="@string/title_weather" />-->
-
-<!--    <item-->
-<!--        android:id="@+id/navigation_schedule"-->
-<!--        android:icon="@drawable/baseline_format_list_bulleted_24"-->
-<!--        android:title="@string/title_schedule" />-->
-
-
-<!--    <item-->
-<!--        android:id="@+id/navigation_weather_forecast"-->
-<!--        android:icon="@drawable/baseline_cloud_24"-->
-<!--        android:title="Forecast" />-->
+        android:title="@string/weather_title" />
 
 </menu>

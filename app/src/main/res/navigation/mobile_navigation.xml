@@ -14,7 +14,7 @@
     <fragment
         android:id="@+id/navigation_home"
         android:name="com.example.weatherapp.home.view.HomeFragment"
-        android:label="Home"
+        android:label="@string/home_title"
         tools:layout="@layout/fragment_weather_full" />
 
     <fragment
@@ -22,31 +22,6 @@
         android:name="com.example.weatherapp.weather.view.WeatherFullFragment"
         android:label="@string/title_weather"
         tools:layout="@layout/fragment_weather_full" />
-
-<!--    <fragment-->
-<!--        android:id="@+id/navigation_schedule_list"-->
-<!--        android:name="com.example.weatherapp.home.view.HomeFragment"-->
-<!--        android:label="@string/title_schedule"-->
-<!--        tools:layout="@layout/fragment_schedule_list" />-->
-
-<!--    <fragment-->
-<!--        android:id="@+id/navigation_weather"-->
-<!--        android:name="com.example.weatherapp.view.currentWeather.view.CurrentWeatherFragment"-->
-<!--        android:label="@string/title_weather"-->
-<!--        tools:layout="@layout/fragment_current_weather" />-->
-
-<!--    <fragment-->
-<!--        android:id="@+id/navigation_schedule"-->
-<!--        android:name="com.example.weatherapp.schedule.view.ScheduleFragment"-->
-<!--        android:label="@string/title_schedule"-->
-<!--        tools:layout="@layout/fragment_lessons" />-->
-
-
-<!--    <fragment-->
-<!--        android:id="@+id/navigation_weather_forecast"-->
-<!--        android:name="com.example.weatherapp.view.weather.view.WeatherForecastFragment"-->
-<!--        android:label="@string/title_weather"-->
-<!--        tools:layout="@layout/fragment_weather_forecast" />-->
 
 
 </navigation>
